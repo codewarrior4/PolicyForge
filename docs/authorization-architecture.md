@@ -10,7 +10,7 @@ The decision must be explicit, testable, auditable, tenant-aware, feature-aware,
 
 ## Current Stack Note
 
-`compulsory.md` names Laravel 12, PHP 8.4, MySQL 8, Redis, and Laravel Pennant as the primary stack. The application currently reports Laravel 13.29.0, PHP 8.4, SQLite, and no installed Pennant package.
+`compulsory.md` names Laravel 12, PHP 8.4, MySQL 8, Redis, and Laravel Pennant as the primary stack. The application currently reports Laravel 13.29.0 and PHP 8.4. The environment has been switched from SQLite to MySQL using the `policyforge` database name, while Pennant and Redis still need to be introduced when their runtime boundaries are implemented.
 
 The architecture below is written for the installed Laravel 13 application while preserving the sprint intent. Pennant, Redis, MySQL, Sanctum, Horizon, Pulse, and Spatie packages should be introduced when their specific boundary becomes active.
 
