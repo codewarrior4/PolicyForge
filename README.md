@@ -1,58 +1,96 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# PolicyForge
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+PolicyForge is a Laravel authorization infrastructure project for building tenant-aware, policy-driven, auditable access control across users, organizations, APIs, background jobs, and MCP tools.
 
-## About Laravel
+The project is focused on answering one core question consistently:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```text
+Is this principal allowed to perform this action on this resource in this context?
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## Current Stack
 
-## Contributing
+- PHP 8.4
+- Laravel 13
+- MySQL
+- PHPUnit
+- Laravel Boost
+- Laravel MCP package present in the installed dependency tree
+- Tailwind CSS 4 and Vite
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Planned package direction includes Laravel Pennant for feature availability, Spatie Permission for role and permission persistence, Spatie Activitylog or a dedicated audit table for authorization auditing, Sanctum for API tokens, and Horizon/Pulse once queues and runtime observability become part of the work.
 
-## Code of Conduct
+## Authorization Focus
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+PolicyForge treats authorization as infrastructure, not as scattered `Gate::allows()` calls.
 
-## Security Vulnerabilities
+The authorization model is expected to account for:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- authenticated principals
+- organization and tenant context
+- stable actions and permissions
+- roles as permission bundles
+- resource ownership
+- feature availability
+- risk context
+- explicit allow or deny decisions
+- audit records
 
-## License
+The default posture is deny-by-default.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Monday Design Notes
+
+The initial authorization planning lives in:
+
+- [Authorization Architecture](docs/authorization-architecture.md)
+- [Authorization Fundamentals](docs/authorization-fundamentals.md)
+- [Laravel Authorization Internals](docs/laravel-authorization-internals.md)
+- [Authorization Domain Model](docs/authorization-domain-model.md)
+- [Authorization Threat Model](docs/authorization-threat-model.md)
+- [Permissions](docs/permissions.md)
+- [Pennant and Authorization Boundary](docs/pennant-authorization-boundary.md)
+- [Day 1 Reflection](docs/reflections/day-1.md)
+
+## Local Setup
+
+Install dependencies:
+
+```bash
+composer install
+npm install
+```
+
+Create the environment file:
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+Create a MySQL database named `policyforge`, then run migrations:
+
+```bash
+mysql -u root -e "CREATE DATABASE IF NOT EXISTS policyforge CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+php artisan migrate
+```
+
+Build frontend assets:
+
+```bash
+npm run build
+```
+
+Run tests:
+
+```bash
+php artisan test --compact
+```
+
+## Development Notes
+
+- Keep authorization logic outside controllers where possible.
+- Use Laravel policies and Gate as framework integration points.
+- Do not use feature flags as permissions.
+- Re-authorize queued jobs at execution time.
+- Treat tenant context as required for tenant-owned resources.
+- Audit sensitive authorization decisions and permission changes.
