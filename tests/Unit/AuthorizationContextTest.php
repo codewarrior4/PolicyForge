@@ -49,4 +49,34 @@ class AuthorizationContextTest extends TestCase
 
         $this->assertSame('mcp.tools.custom.execute', $context->permission);
     }
+
+    public function test_returns_copy_for_a_different_principal(): void
+    {
+        $principal = new User(['email' => 'member@example.com']);
+        $context = new AuthorizationContext(
+            principal: null,
+            action: AuthorizationAction::View,
+            permission: Permission::UsersView,
+        );
+
+        $copy = $context->forPrincipal($principal);
+
+        $this->assertNull($context->principal);
+        $this->assertSame($principal, $copy->principal);
+        $this->assertSame(Permission::UsersView, $copy->permission);
+    }
+
+    public function test_returns_copy_for_a_different_permission(): void
+    {
+        $context = new AuthorizationContext(
+            principal: null,
+            action: AuthorizationAction::View,
+            permission: Permission::UsersView,
+        );
+
+        $copy = $context->withPermission(Permission::AuditView);
+
+        $this->assertSame(Permission::UsersView, $context->permission);
+        $this->assertSame(Permission::AuditView, $copy->permission);
+    }
 }

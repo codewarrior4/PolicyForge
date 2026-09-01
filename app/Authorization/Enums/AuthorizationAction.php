@@ -10,6 +10,9 @@ enum AuthorizationAction: string
     case Delete = 'delete';
     case Execute = 'execute';
     case Manage = 'manage';
+    case Register = 'register';
+    case Invite = 'invite';
+    case Disable = 'disable';
     case Assign = 'assign';
     case Revoke = 'revoke';
     case Grant = 'grant';

@@ -22,4 +22,32 @@ readonly class AuthorizationContext
         public ?Request $request = null,
         public array $metadata = [],
     ) {}
+
+    public function forPrincipal(?Authenticatable $principal): self
+    {
+        return new self(
+            principal: $principal,
+            action: $this->action,
+            permission: $this->permission,
+            organization: $this->organization,
+            resource: $this->resource,
+            feature: $this->feature,
+            request: $this->request,
+            metadata: $this->metadata,
+        );
+    }
+
+    public function withPermission(Permission|string|null $permission): self
+    {
+        return new self(
+            principal: $this->principal,
+            action: $this->action,
+            permission: $permission,
+            organization: $this->organization,
+            resource: $this->resource,
+            feature: $this->feature,
+            request: $this->request,
+            metadata: $this->metadata,
+        );
+    }
 }

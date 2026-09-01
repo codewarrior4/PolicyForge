@@ -55,6 +55,7 @@ users.disable
 
 ```text
 organizations.view
+organizations.create
 organizations.update
 organizations.delete
 organizations.transfer_ownership
@@ -141,6 +142,7 @@ Read-only access to permitted resources. No mutation, no role changes, no sensit
 ```text
 Owner
   organizations.view
+  organizations.create
   organizations.update
   organizations.delete
   organizations.transfer_ownership
@@ -175,6 +177,7 @@ Owner
 
 Administrator
   organizations.view
+  organizations.create
   organizations.update
   organizations.manage_members
   users.view

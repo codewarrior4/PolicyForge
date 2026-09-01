@@ -12,6 +12,7 @@ enum Permission: string
     case UsersDisable = 'users.disable';
 
     case OrganizationsView = 'organizations.view';
+    case OrganizationsCreate = 'organizations.create';
     case OrganizationsUpdate = 'organizations.update';
     case OrganizationsDelete = 'organizations.delete';
     case OrganizationsTransferOwnership = 'organizations.transfer_ownership';
