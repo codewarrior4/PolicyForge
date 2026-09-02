@@ -20,6 +20,11 @@ class Organization extends Model
         return $this->hasMany(PolicyDocument::class);
     }
 
+    public function permissionOverrides(): HasMany
+    {
+        return $this->hasMany(OrganizationPermissionOverride::class);
+    }
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class)->withPivot('role')->withTimestamps();
