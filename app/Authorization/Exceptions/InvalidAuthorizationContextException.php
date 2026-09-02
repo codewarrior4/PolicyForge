@@ -11,4 +11,9 @@ class InvalidAuthorizationContextException extends InvalidArgumentException impl
     {
         return new self('Authorization context is missing a permission.');
     }
+
+    public static function ambiguousOrganization(): self
+    {
+        return new self('Authorization context has multiple possible organizations.');
+    }
 }
