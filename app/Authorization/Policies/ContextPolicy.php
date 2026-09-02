@@ -34,14 +34,6 @@ abstract class ContextPolicy
             )->toLaravelResponse();
         }
 
-        if ($requiresActiveResource && ($context->metadata['resource_active'] ?? true) === false) {
-            return AuthorizationDecision::deny(
-                action: $context->action,
-                reason: 'resource_inactive',
-                permission: $permission,
-            )->toLaravelResponse();
-        }
-
         if ($requiresResourceOwnership
             && ($context->metadata['owns_resource'] ?? false) === false
             && ($context->metadata['can_manage_resource'] ?? false) === false) {
@@ -52,6 +44,20 @@ abstract class ContextPolicy
             )->toLaravelResponse();
         }
 
-        return $this->authorizationService->inspect($context)->toLaravelResponse();
+        $response = $this->authorizationService->inspect($context)->toLaravelResponse();
+
+        if ($response->denied()) {
+            return $response;
+        }
+
+        if ($requiresActiveResource && ($context->metadata['resource_active'] ?? true) === false) {
+            return AuthorizationDecision::deny(
+                action: $context->action,
+                reason: 'resource_inactive',
+                permission: $permission,
+            )->toLaravelResponse();
+        }
+
+        return $response;
     }
 }

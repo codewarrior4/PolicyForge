@@ -12,6 +12,7 @@ class AuthorizationService
 {
     public function __construct(
         private readonly PermissionRegistry $permissionRegistry,
+        private readonly FeatureAvailabilityResolver $featureAvailabilityResolver = new FeatureAvailabilityResolver,
     ) {}
 
     public function authorize(AuthorizationContext $context): AuthorizationDecision
@@ -57,7 +58,7 @@ class AuthorizationService
             throw UnknownPermissionException::forName($permissionName);
         }
 
-        if ($context->feature !== null && ($context->metadata['feature_enabled'] ?? true) === false) {
+        if (! $this->featureAvailabilityResolver->enabled($context)) {
             return AuthorizationDecision::deny(
                 action: $context->action,
                 reason: 'feature_disabled',
