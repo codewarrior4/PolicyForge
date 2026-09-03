@@ -15,7 +15,6 @@ Is this principal allowed to perform this action on this resource in this contex
 - MySQL
 - PHPUnit
 - Laravel Boost
-- Laravel MCP package present in the installed dependency tree
 - Tailwind CSS 4 and Vite
 
 Planned package direction includes Laravel Pennant for feature availability, Spatie Permission for role and permission persistence, Spatie Activitylog or a dedicated audit table for authorization auditing, Sanctum for API tokens, and Horizon/Pulse once queues and runtime observability become part of the work.
@@ -38,9 +37,9 @@ The authorization model is expected to account for:
 
 The default posture is deny-by-default.
 
-## Monday Design Notes
+## Design Notes
 
-The initial authorization planning lives in:
+Authorization planning and engineering notes live in:
 
 - [Authorization Architecture](docs/authorization-architecture.md)
 - [Authorization Fundamentals](docs/authorization-fundamentals.md)
@@ -49,7 +48,10 @@ The initial authorization planning lives in:
 - [Authorization Threat Model](docs/authorization-threat-model.md)
 - [Permissions](docs/permissions.md)
 - [Pennant and Authorization Boundary](docs/pennant-authorization-boundary.md)
-- [Day 1 Reflection](docs/reflections/day-1.md)
+- [Tenant Authorization](docs/tenant-authorization.md)
+- [Service Authorization](docs/service-authorization.md)
+- [Authorization Performance](docs/authorization-performance.md)
+- [Authorization Failure Modes](docs/authorization-failure-modes.md)
 
 ## Local Setup
 
