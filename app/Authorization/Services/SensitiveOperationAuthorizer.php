@@ -5,6 +5,7 @@ namespace App\Authorization\Services;
 use App\Authorization\DTOs\AuthorizationDecision;
 use App\Authorization\DTOs\SensitiveOperationContext;
 use App\Authorization\Enums\AuthorizationAction;
+use InvalidArgumentException;
 
 class SensitiveOperationAuthorizer
 {
@@ -19,11 +20,17 @@ class SensitiveOperationAuthorizer
             ->whereKey($context->organization->getKey())
             ->first();
 
-        if ($membership === null || ! $this->rolePermissionResolver->allows(
-            role: (string) $membership->pivot->role,
-            permission: $permission,
-            organization: $context->organization,
-        )) {
+        try {
+            $allowedByPermission = $membership !== null && $this->rolePermissionResolver->allows(
+                role: (string) $membership->pivot->role,
+                permission: $permission,
+                organization: $context->organization,
+            );
+        } catch (InvalidArgumentException) {
+            $allowedByPermission = false;
+        }
+
+        if (! $allowedByPermission) {
             return AuthorizationDecision::deny(
                 action: AuthorizationAction::Approve,
                 reason: 'missing_permission',

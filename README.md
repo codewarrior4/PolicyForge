@@ -52,6 +52,13 @@ Authorization planning and engineering notes live in:
 - [Service Authorization](docs/service-authorization.md)
 - [Authorization Performance](docs/authorization-performance.md)
 - [Authorization Failure Modes](docs/authorization-failure-modes.md)
+- [Authorization Red-Team Report](docs/authorization-red-team-report.md)
+- [Authorization Production Checklist](docs/authorization-production-checklist.md)
+- [Authorization Incidents](docs/authorization-incidents.md)
+- [Authorization Release Plan](docs/authorization-release-plan.md)
+- [Authorization Demo](docs/authorization-demo.md)
+- [Principal Challenge Authorization](docs/principal-challenge-authorization.md)
+- [Week 04 Reflection](docs/reflections/week-04.md)
 
 ## Local Setup
 
